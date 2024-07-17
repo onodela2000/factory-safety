@@ -56,6 +56,9 @@
         @click="navigateTo('マニュアル')"
         >マニュアル</van-button
       >
+      <van-button type="primary" @click="navigateTo('クイズ管理')"
+        >クイズ管理</van-button
+      >
     </div>
     <button
       v-if="!isMobile"
@@ -177,7 +180,7 @@ const touchEnd = () => {
           refreshText.value = "インターネット接続を確認してください。";
           setTimeout(() => {
             pullDistance.value = -70;
-          }, 1500)
+          }, 1500);
         }
       }, 1500);
     }

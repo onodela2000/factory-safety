@@ -30,6 +30,7 @@ import HomePage from './components/HomePage.vue'
 const QuizPage = defineAsyncComponent(() => import('./components/QuizPage.vue'))
 const ManualPage = defineAsyncComponent(() => import('./components/ManualPage.vue'))
 const ResultPage = defineAsyncComponent(() => import('./components/ResultPage.vue'))
+const QuizManagementPage = defineAsyncComponent(() => import('./components/QuizManagementPage.vue'))
 
 const currentPage = ref('ホーム')
 const showOverlay = ref(false)
@@ -41,6 +42,7 @@ const currentPageComponent = computed(() => {
     case 'クイズ': return QuizPage
     case 'マニュアル': return ManualPage
     case 'リザルト': return ResultPage
+    case 'クイズ管理': return QuizManagementPage
     default: return null
   }
 })
