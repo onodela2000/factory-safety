@@ -56,9 +56,6 @@
         @click="navigateTo('マニュアル')"
         >マニュアル</van-button
       >
-      <van-button type="primary" @click="navigateTo('クイズ管理')"
-        >クイズ管理</van-button
-      >
     </div>
     <button
       v-if="!isMobile"

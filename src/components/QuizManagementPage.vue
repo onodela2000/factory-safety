@@ -9,12 +9,28 @@
       />
 
       <van-field
-        v-model.number="currentQuiz.correctAnswer"
         name="correctAnswer"
+        v-model="currentQuiz.correctAnswer"
         label="正解"
-        type="number"
         :rules="[{ required: true, message: '正解を選択してください' }]"
-      />
+      >
+        <template #input>
+          <select 
+            v-model="currentQuiz.correctAnswer" 
+            class="custom-select"
+            @change="handleCorrectAnswerChange"
+          >
+            <option value="" disabled>正解を選択</option>
+            <option
+              v-for="(option, index) in currentQuiz.options"
+              :key="index"
+              :value="index + 1"
+            >
+              選択肢 {{ index + 1 }}
+            </option>
+          </select>
+        </template>
+      </van-field>
 
       <van-field
         v-for="(option, index) in currentQuiz.options"
@@ -137,14 +153,24 @@ const handleSubmit = async () => {
   }
 };
 
+const handleCorrectAnswerChange = (event) => {
+  currentQuiz.value.correctAnswer = parseInt(event.target.value, 10);
+};
+
 const addQuiz = async () => {
-  const newQuiz = { ...currentQuiz.value };
+  const newQuiz = { 
+    ...currentQuiz.value,
+    correctAnswer: parseInt(currentQuiz.value.correctAnswer, 10)
+  };
   const docRef = await addDoc(collection(db, "quizzes"), newQuiz);
   quizzes.value.push({ id: docRef.id, ...newQuiz });
 };
 
 const updateQuiz = async () => {
-  const updatedQuiz = { ...currentQuiz.value };
+  const updatedQuiz = { 
+    ...currentQuiz.value,
+    correctAnswer: parseInt(currentQuiz.value.correctAnswer, 10)
+  };
   await updateDoc(doc(db, "quizzes", editingQuizId.value), updatedQuiz);
   const index = quizzes.value.findIndex((q) => q.id === editingQuizId.value);
   if (index !== -1) {
@@ -301,5 +327,24 @@ const preloadImages = async () => {
 .van-cell__right-icon {
   display: flex;
   align-items: center;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 0px solid #fff;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #323233;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8.825L1.175 4 2.59 2.59 6 6l3.41-3.41L10.825 4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #1989fa;
 }
 </style>

@@ -25,12 +25,14 @@
         {{ alertMessage }}
       </div>
       <div class="quiz-scroll-content">
-        <img
-          v-if="currentQuiz.imageUrl"
-          :src="currentQuiz.imageUrl"
-          alt="Quiz Image"
-          class="quiz-image"
-        />
+        <div style="display: flex; justify-content: center;">
+          <img
+            v-if="currentQuiz.imageUrl"
+            :src="currentQuiz.imageUrl"
+            alt="Quiz Image"
+            class="quiz-image"
+          />
+        </div>
         <h2 class="quiz-question">{{ currentQuiz.question }}</h2>
         <van-radio-group v-model="selectedAnswer">
           <van-cell-group inset>
@@ -233,6 +235,7 @@ const submitAnswer = () => {
 
 .quiz-image {
   width: 100%;
+  max-width: 1200px;
   height: auto;
   margin-bottom: 15px;
 }
