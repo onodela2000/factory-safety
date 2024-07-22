@@ -48,11 +48,13 @@ const quizResults = ref([])
 
 const currentPageComponent = computed(() => {
   switch (currentPage.value) {
-    case 'クイズ': return QuizPage
-    case 'マニュアル': return ManualPage
-    case 'リザルト': return ResultPage
-    case 'クイズ管理': return QuizManagementPage
-    default: return null
+    case 'クイズ':
+      fetchQuizzes();
+      return QuizPage;
+    case 'マニュアル': return ManualPage;
+    case 'リザルト': return ResultPage;
+    case 'クイズ管理': return QuizManagementPage;
+    default: return null;
   }
 })
 
