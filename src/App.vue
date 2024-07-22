@@ -1,5 +1,5 @@
-<<template>
-  <div id="app">
+<template>
+  <div id="app" style="overflow-y: auto;">
     <template v-if="$route.path === '/'">
       <div class="page-container">
         <home-page v-show="currentPage === 'ホーム'"></home-page>
