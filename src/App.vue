@@ -1,22 +1,28 @@
-<template>
+<<template>
   <div id="app">
-    <div class="page-container">
-      <home-page v-show="currentPage === 'ホーム'"></home-page>
-    </div>
-    <transition name="overlay" @after-leave="afterLeave">
-      <div v-if="showOverlay" class="overlay-page">
-        <van-nav-bar
-          :title="currentPage"
-          left-text="戻る"
-          left-arrow
-          @click-left="goBack"
-          class="fixed-header"
-        />
-        <div class="overlay-content">
-          <component :is="currentPageComponent"></component>
-        </div>
+    <template v-if="$route.path === '/'">
+      <div class="page-container">
+        <home-page v-show="currentPage === 'ホーム'"></home-page>
       </div>
-    </transition>
+      <transition name="overlay" @after-leave="afterLeave">
+        <div v-if="showOverlay" class="overlay-page">
+          <van-nav-bar
+            :title="currentPage"
+            left-text="戻る"
+            left-arrow
+            @click-left="goBack"
+            class="fixed-header"
+          />
+          <div class="overlay-content">
+            <component :is="currentPageComponent"></component>
+          </div>
+        </div>
+      </transition>
+      
+      <!-- クイズ管理ページへのリンクを追加 -->
+      <router-link to="/quiz-management">クイズ管理ページ</router-link>
+    </template>
+    <router-view v-else></router-view>
   </div>
 </template>
 
@@ -25,12 +31,15 @@ import { ref, computed, onMounted, defineAsyncComponent, provide } from 'vue'
 import { collection, getDocs } from 'firebase/firestore'
 import { ref as storageRef, getDownloadURL } from 'firebase/storage'
 import { db, storage } from './firebase'
+import { useRouter } from 'vue-router'
 
 import HomePage from './components/HomePage.vue'
 const QuizPage = defineAsyncComponent(() => import('./components/QuizPage.vue'))
 const ManualPage = defineAsyncComponent(() => import('./components/ManualPage.vue'))
 const ResultPage = defineAsyncComponent(() => import('./components/ResultPage.vue'))
 const QuizManagementPage = defineAsyncComponent(() => import('./components/QuizManagementPage.vue'))
+
+const router = useRouter()
 
 const currentPage = ref('ホーム')
 const showOverlay = ref(false)
